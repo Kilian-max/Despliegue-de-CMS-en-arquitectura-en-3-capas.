@@ -18,9 +18,9 @@ Este es el manual que he preparado para poder ayudar a la gente explicando paso 
 ## 2. Creacion de la VPC y las subredes
 Necesitamos 2 subredes privadas y una pública.
 
----
+<br>
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2018-59-01.png)
----
+<br>
 
 Se crean 3 tablas dee enrutamineto, pero solo necesitaremos 2, una para la pública y otra para la privada, pero eso lo veremos más adelante.
 Cada subred con su rango de ips.
