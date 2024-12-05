@@ -92,11 +92,13 @@ Así quedaria la el mapa de recursos de la VPC.
 ## 5. Conectarse con ssh
 Ahora nos vamos a conectar con ssh cogiendo la clave ssh que hemos descargado antes y apuntado a la ip pública del balanceador.
 ```bash
-ssh -i "ssh-wordpress.pem" ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com```
+ssh -i "ssh-wordpress.pem" ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com
+```
 
 Y con el `scp` copiaremos la clave ssh para pasarselo al balanceador y desde allí nos podremos conectar a las demás instancias.
 ```bash
-scp -i ssh-wordpress.pem ssh-wordpress.pem ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com:/home/ubuntu```
+scp -i ssh-wordpress.pem ssh-wordpress.pem ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com:/home/ubuntu
+```
 
 Dentro de cada máquina comprovaremos si tienen conexióna internet y se hacen `ping` entre ellas.
 
