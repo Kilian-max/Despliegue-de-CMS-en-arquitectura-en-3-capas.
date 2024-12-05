@@ -91,11 +91,13 @@ Así quedaria la el mapa de recursos de la VPC.
 
 ## 5. Conectarse con ssh
 Ahora nos vamos a conectar con ssh cogiendo la clave ssh que hemos descargado antes y apuntado a la ip pública del balanceador.
+
 ```bash
 ssh -i "ssh-wordpress.pem" ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com
 ```
 
 Y con el `scp` copiaremos la clave ssh para pasarselo al balanceador y desde allí nos podremos conectar a las demás instancias.
+
 ```bash
 scp -i ssh-wordpress.pem ssh-wordpress.pem ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com:/home/ubuntu
 ```
@@ -104,33 +106,46 @@ Dentro de cada máquina comprovaremos si tienen conexióna internet y se hacen `
 
 Una vez que lo comprovemos pasaremos todos los scripts de aprovisionamiento de las intancias a cada una la suya.
 
+
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-17-59.png)
+
 
 Antes de ejecutar los scripts nos iremos a una página que nos de un dominio gratis como ![MY NO-IP](https://www.noip.com/) y creamos un dominio y le asignamos la ip elástica del balanceador.
 
+
 ![Texto alternativo](imagenes/captura13.png)
+
 
 Ejecutaremos los scripts con `sudo sh`.
 Y una vez terminen todas las intancias de ejecutar los scripts, nos vamos al navegador y ponemos el nombre del dominio. 
 
+
 ![Texto alternativo](imagenes/captura14.png)
+
 
 Una vez terminemos con todos los pasos accederemos a nuestro blog de wordpress.
 
+
 ![Texto alternativo](imagenes/captura16.png)
+
 
 ## . Cambiar las reglas de seguridad
 
 Una vez esté instalado todo tenemos que cambiar las reglas de seguridad evitar problemas.
 Esta es las reglas del Balanceador.
 
+
 ![Texto alternativo](imagenes/captura17.png)
+
 
 Esta es las reglas de los Backends + NFS
 
+
 ![Texto alternativo](imagenes/captura20.png)
 
+
 Esta es las reglas de la Bade de Datos.
+
 
 ![Texto alternativo](imagenes/captura21.png)
 
