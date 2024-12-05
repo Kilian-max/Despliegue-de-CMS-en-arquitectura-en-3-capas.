@@ -1,22 +1,30 @@
 # Implementación de un CMS WordPress en Alta Disponibilidad y Escalabilidad en AWS
 
 ## Índice
-1. [Introducción](#introducción)
-
-
+1. [Introducción](#1-introducción)
+2. [Creación de la VPC y las subredes](#2-creación-de-la-vpc-y-las-subredes)
+3. [Creación de las instancias](#3-creación-de-las-instancias)
+4. [Creación de la IP elástica y gateway NAT](#4-creación-de-la-ip-elástica-y-gateway-nat)
+5. [Tablas de enrutamiento](#5-tablas-de-enrutamiento)
+6. [Conectarse con SSH](#6-conectarse-con-ssh)
+7. [Crear dominio](#7-crear-dominio)
+8. [Ejecutar los scripts](#8-ejecutar-los-scripts)
+9. [Página WordPress](#9-página-wordpress)
+10. [Cambiar las reglas de seguridad](#10-cambiar-las-reglas-de-seguridad)
+11. [Autores](#11-autores)
 ---
 
 ## 1. Introducción
 ---
-La clase de ASIR 2º nos han mandado hacer un CMS WordPress en Alta Disponibilidad en AWS con:
+La clase de ASIR 2º nos ha mandado hacer un CMS WordPress en Alta Disponibilidad en AWS con:
 
-Capa 1: Capa pública. Balanceador de carga.
-Capa 2: Capa privada. Servidores de Backend + NFS.
-Capa 3: Capa privada. Servidor de BBDD.
+- **Capa 1:** Capa pública. Balanceador de carga.  
+- **Capa 2:** Capa privada. Servidores de Backend + NFS.  
+- **Capa 3:** Capa privada. Servidor de BBDD.  
 
 Este es el manual que he preparado para poder ayudar a la gente explicando paso a paso.
 
-## 2. Creacion de la VPC y las subredes
+## 2. Creación de la VPC y las subredes
 ---
 Necesitamos 2 subredes privadas y una pública.
 
@@ -26,9 +34,8 @@ Necesitamos 2 subredes privadas y una pública.
 
 <br>
 
-
-Se crean 3 tablas dee enrutamineto, pero solo necesitaremos 2, una para la pública y otra para la privada, pero eso lo veremos más adelante.
-Cada subred con su rango de ips.
+Se crean 3 tablas de enrutamiento, pero solo necesitaremos 2: una para la pública y otra para la privada (esto lo veremos más adelante).  
+Cada subred tendrá su rango de IPs.
 
 <br>
 
@@ -36,9 +43,9 @@ Cada subred con su rango de ips.
 
 <br>
 
-## 3. Creacion de las instancias
+## 3. Creación de las instancias
 ---
-Ahora nos vamos a la seccion de EC2 para empezar a crear las intancias de cada subred
+Ahora nos vamos a la sección de EC2 para empezar a crear las instancias en cada subred.
 
 <br>
 
@@ -46,8 +53,8 @@ Ahora nos vamos a la seccion de EC2 para empezar a crear las intancias de cada s
 
 <br>
 
-Tenemos que crear un par de claves para poder accceder mediante ssh.
-Selecionamos la VPC que hemos creado y la subred a la que va a pertenecer la intancia.
+Tenemos que crear un par de claves para poder acceder mediante SSH.  
+Seleccionamos la VPC que hemos creado y la subred a la que va a pertenecer la instancia.
 
 <br>
 
@@ -55,7 +62,7 @@ Selecionamos la VPC que hemos creado y la subred a la que va a pertenecer la int
 
 <br>
 
-Los grupos de seguridad vamos a permitir todo para poder intalar todo correctamente y luego lo cambiaremos para tener mayor seguridad.
+Los grupos de seguridad inicialmente permitirán todo para poder instalar correctamente, y luego los ajustaremos para mayor seguridad.
 
 <br>
 
@@ -63,7 +70,7 @@ Los grupos de seguridad vamos a permitir todo para poder intalar todo correctame
 
 <br>
 
-La creamos al igual que todas las demas.
+Creamos las instancias siguiendo este proceso.
 
 <br>
 
@@ -72,9 +79,9 @@ La creamos al igual que todas las demas.
 
 <br>
 
-## 4. Creacion de la ip elastica y gateway NAT
+## 4. Creación de la IP elástica y Gateway NAT
 ---
-Creamos una ip elastica y se la asignamos al balanceador.
+Creamos una IP elástica y la asignamos al balanceador.
 
 <br>
 
@@ -82,7 +89,7 @@ Creamos una ip elastica y se la asignamos al balanceador.
 
 <br>
 
-Creamos una gateway NAT, la vinculamos a subred publica para que las redes privadas tengan acceso a intenet para descargar lo necesario.
+Creamos un Gateway NAT, vinculándolo a la subred pública para que las redes privadas tengan acceso a Internet y puedan descargar lo necesario.
 
 <br>
 
@@ -92,7 +99,7 @@ Creamos una gateway NAT, la vinculamos a subred publica para que las redes priva
 
 ## 5. Tablas de enrutamiento
 ---
-Configuramos la tabla de enrutamineto de las redes publicas
+Configuramos la tabla de enrutamiento de las redes públicas.
 
 <br>
 
@@ -100,7 +107,7 @@ Configuramos la tabla de enrutamineto de las redes publicas
 
 <br>
 
-Y ahora la tabla de enrutamineto de las redes privadas añadiendo la NAT que hemos creado antes.
+Luego, configuramos la tabla de enrutamiento de las redes privadas añadiendo la NAT creada anteriormente.
 
 <br>
 
@@ -108,7 +115,7 @@ Y ahora la tabla de enrutamineto de las redes privadas añadiendo la NAT que hem
 
 <br>
 
-Así quedaria la el mapa de recursos de la VPC.
+Así quedaría el mapa de recursos de la VPC.
 
 <br>
 
@@ -116,9 +123,9 @@ Así quedaria la el mapa de recursos de la VPC.
 
 <br>
 
-## 6. Conectarse con ssh
+## 6. Conectarse con SSH
 ---
-Ahora nos vamos a conectar con ssh cogiendo la clave ssh que hemos descargado antes y apuntado a la ip pública del balanceador.
+Ahora nos conectaremos con SSH utilizando la clave que hemos descargado previamente, apuntando a la IP pública del balanceador.
 
 ```bash
 ssh -i "ssh-wordpress.pem" ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com
@@ -130,9 +137,9 @@ Y con el `scp` copiaremos la clave ssh para pasarselo al balanceador y desde all
 scp -i ssh-wordpress.pem ssh-wordpress.pem ubuntu@ec2-54-197-239-192.compute-1.amazonaws.com:/home/ubuntu
 ```
 
-Dentro de cada máquina comprovaremos si tienen conexióna internet y se hacen `ping` entre ellas.
+Dentro de cada máquina comprobaremos si tienen conexión a internet y se hacen `ping` entre ellas.
 
-Una vez que lo comprovemos pasaremos todos los scripts de aprovisionamiento de las intancias a cada una la suya.
+Una vez que lo comprobemos, pasaremos todos los scripts de aprovisionamiento de las instancias a cada una la suya.
 
 <br>
 
@@ -142,7 +149,7 @@ Una vez que lo comprovemos pasaremos todos los scripts de aprovisionamiento de l
 
 ## 7. Crear dominio
 ---
-Antes de ejecutar los scripts nos iremos a una página que nos de un dominio gratis como ![MY NO-IP](https://www.noip.com/) y creamos un dominio y le asignamos la ip elástica del balanceador.
+Antes de ejecutar los scripts, nos iremos a una página que nos dé un dominio gratis como ![MY NO-IP](https://www.noip.com/) y creamos un dominio, asignándole la IP elástica del balanceador.
 
 <br>
 
@@ -152,8 +159,8 @@ Antes de ejecutar los scripts nos iremos a una página que nos de un dominio gra
 
 ## 8. Ejecutar los scripts
 ---
-Ejecutaremos los scripts con `sudo sh`.
-Y una vez terminen todas las intancias de ejecutar los scripts, nos vamos al navegador y ponemos el nombre del dominio. 
+Ejecutaremos los scripts con `sudo sh`.  
+Y una vez terminen todas las instancias de ejecutar los scripts, nos vamos al navegador y ponemos el nombre del dominio.
 
 <br>
 
@@ -161,9 +168,9 @@ Y una vez terminen todas las intancias de ejecutar los scripts, nos vamos al nav
 
 <br>
 
-## 8. Página Wordpress
+## 9. Página WordPress
 ---
-Una vez terminemos con todos los pasos accederemos a nuestro blog de wordpress.
+Una vez terminemos con todos los pasos, accederemos a nuestro blog de WordPress.
 
 <br>
 
@@ -171,10 +178,10 @@ Una vez terminemos con todos los pasos accederemos a nuestro blog de wordpress.
 
 <br>
 
-## 9. Cambiar las reglas de seguridad
+## 10. Cambiar las reglas de seguridad
 ---
-Una vez esté instalado todo tenemos que cambiar las reglas de seguridad evitar problemas.
-Esta es las reglas del Balanceador.
+Una vez esté todo instalado, tenemos que cambiar las reglas de seguridad para evitar problemas.  
+Estas son las reglas del Balanceador:
 
 <br>
 
@@ -182,7 +189,7 @@ Esta es las reglas del Balanceador.
 
 <br>
 
-Esta es las reglas de los Backends + NFS
+Estas son las reglas de los Backends + NFS:
 
 <br>
 
@@ -190,7 +197,7 @@ Esta es las reglas de los Backends + NFS
 
 <br>
 
-Esta es las reglas de la Bade de Datos.
+Estas son las reglas de la Base de Datos:
 
 <br>
 
@@ -198,8 +205,11 @@ Esta es las reglas de la Bade de Datos.
 
 <br>
 
-Una vez cambiadas las reglas comprovamos que la página wordpress esté operativa sin fallos y significará que lo hemos hecho todo bien. :)
+Una vez cambiadas las reglas, comprobamos que la página de WordPress esté operativa sin fallos, lo que significará que hemos hecho todo correctamente. :)
 
+## Autores
+---
+- **Kilian Gimenez** - [GitHub](https://github.com/Kilian-max) - Creador y jefe del proyecto.
 
 
 
