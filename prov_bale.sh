@@ -1,0 +1,52 @@
+# Actualizar los repositorios
+apt-get update && apt-get upgrade -y
+
+# Instalar Apache
+apt-get install apache2 -y
+
+# Habilitar módulos de Apache
+a2enmod proxy
+a2enmod proxy_http
+a2enmod ssl
+a2enmod proxy_balancer
+a2enmod lbmethod_byrequests
+
+# Añadir ServerName para evitar advertencias
+echo "ServerName kilianwordpress.zapto.org" >> /etc/apache2/apache2.conf
+
+# Reiniciar Apache
+systemctl restart apache2
+
+# Configuración del balanceador de carga
+cat <<EOL > /etc/apache2/sites-available/000-default.conf
+<VirtualHost *:80>
+    ServerName kilianwordpress.zapto.org
+
+    # Configuración del balanceador
+    ProxyRequests Off
+    ProxyPreserveHost On
+
+    <Proxy balancer://mi_cluster>
+        BalancerMember http://192.168.57.11
+        BalancerMember http://192.168.57.12
+        ProxySet lbmethod=byrequests
+    </Proxy>
+
+    ProxyPass / balancer://mi_cluster/
+    ProxyPassReverse / balancer://mi_cluster/
+
+    ErrorLog \${APACHE_LOG_DIR}/error.log
+    CustomLog \${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOL
+
+# Habilitar el sitio y reiniciar Apache
+a2ensite 000-default.conf
+systemctl restart apache2
+
+# Instalar Certbot y configurar SSL
+apt-get install certbot python3-certbot-apache -y
+certbot --apache -d kilianwordpress.zapto.org --non-interactive --agree-tos -m kgimenezb01@educarex.es
+
+# Comprobar el estado del servicio Apache
+systemctl status apache2
