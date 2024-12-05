@@ -139,7 +139,7 @@ Una vez que lo comprobemos, pasaremos todos los scripts de aprovisionamiento de 
 
 ## 7. Crear dominio
 ---
-Antes de ejecutar los scripts, nos iremos a una página que nos dé un dominio gratis como ![MY NO-IP](https://www.noip.com/) y creamos un dominio, asignándole la IP elástica del balanceador.
+Antes de ejecutar los scripts, nos iremos a una página que nos dé un dominio gratis como [MY NO-IP](https://www.noip.com/) y creamos un dominio, asignándole la IP elástica del balanceador.
 
 <br>
 
