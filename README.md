@@ -17,4 +17,4 @@ Este es el manual que he preparado para poder ayudar a la gente explicando paso 
 
 ## 2. Creacion de la VPC y las subredes
 
-![Texto alternativo](imagenes/Captura%desde%2024-12-05%18-59-01.png)
+![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2018-59-01.png)
