@@ -41,8 +41,6 @@ Cada subred tendrá su rango de IPs.
 
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2018-59-19.png)
 
-<br>
-
 ## 3. Creación de las instancias
 ---
 Ahora nos vamos a la sección de EC2 para empezar a crear las instancias en cada subred.
@@ -77,8 +75,6 @@ Creamos las instancias siguiendo este proceso.
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-07-41.png)
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-10-44.png)
 
-<br>
-
 ## 4. Creación de la IP elástica y Gateway NAT
 ---
 Creamos una IP elástica y la asignamos al balanceador.
@@ -94,8 +90,6 @@ Creamos un Gateway NAT, vinculándolo a la subred pública para que las redes pr
 <br>
 
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-08-54.png)
-
-<br>
 
 ## 5. Tablas de enrutamiento
 ---
@@ -121,8 +115,6 @@ Así quedaría el mapa de recursos de la VPC.
 
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-12-18.png)
 
-<br>
-
 ## 6. Conectarse con SSH
 ---
 Ahora nos conectaremos con SSH utilizando la clave que hemos descargado previamente, apuntando a la IP pública del balanceador.
@@ -145,8 +137,6 @@ Una vez que lo comprobemos, pasaremos todos los scripts de aprovisionamiento de 
 
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-17-59.png)
 
-<br>
-
 ## 7. Crear dominio
 ---
 Antes de ejecutar los scripts, nos iremos a una página que nos dé un dominio gratis como ![MY NO-IP](https://www.noip.com/) y creamos un dominio, asignándole la IP elástica del balanceador.
@@ -154,8 +144,6 @@ Antes de ejecutar los scripts, nos iremos a una página que nos dé un dominio g
 <br>
 
 ![Texto alternativo](imagenes/captura13.png)
-
-<br>
 
 ## 8. Ejecutar los scripts
 ---
@@ -166,8 +154,6 @@ Y una vez terminen todas las instancias de ejecutar los scripts, nos vamos al na
 
 ![Texto alternativo](imagenes/captura14.png)
 
-<br>
-
 ## 9. Página WordPress
 ---
 Una vez terminemos con todos los pasos, accederemos a nuestro blog de WordPress.
@@ -175,8 +161,6 @@ Una vez terminemos con todos los pasos, accederemos a nuestro blog de WordPress.
 <br>
 
 ![Texto alternativo](imagenes/captura16.png)
-
-<br>
 
 ## 10. Cambiar las reglas de seguridad
 ---
