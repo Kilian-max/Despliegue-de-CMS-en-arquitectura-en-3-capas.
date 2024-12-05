@@ -18,23 +18,23 @@ Este es el manual que he preparado para poder ayudar a la gente explicando paso 
 ## 2. Creacion de la VPC y las subredes
 Necesitamos 2 subredes privadas y una pública.
 
-
+---
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2018-59-01.png)
-
+---
 
 Se crean 3 tablas dee enrutamineto, pero solo necesitaremos 2, una para la pública y otra para la privada, pero eso lo veremos más adelante.
 Cada subred con su rango de ips.
 
-
+---
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2018-59-19.png)
-
+---
 
 ## 2. Creacion de las instancias
 Ahora nos vamos a la seccion de EC2 para empezar a crear las intancias de cada subred
 
-
+---
 ![Texto alternativo](imagenes/Captura%20desde%202024-12-05%2019-00-45.png)
-
+---
 
 Tenemos que crear un par de claves para poder accceder mediante ssh.
 Selecionamos la VPC que hemos creado y la subred a la que va a pertenecer la intancia.
